@@ -1,0 +1,62 @@
+openapi: 3.0.0
+info:
+  title: Car Charger DS API
+  description: API for managing electric vehicle charging status
+  version: 1.0.0
+servers:
+  - url: http://localhost:8080/api
+    description: Local development server
+paths:
+  /charger/status:
+    get:
+      summary: Get current charging status
+      description: Returns the current status of the car charger
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CarChargerStatus'
+  /charger/event:
+    post:
+      summary: Process a charging event
+      description: Processes a charging event and returns the new status
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChargingEvent'
+      responses:
+        '200':
+          description: Event processed successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CarChargerStatus'
+components:
+  schemas:
+    CarChargerStatus:
+      type: string
+      enum:
+        - INITIAL_STATE
+        - POWER_OFF
+        - POWER_PRESENT
+        - READY_TO_CHARGE
+        - VEHICLE_CONNECTED
+        - VEHICLE_CHARGING
+        - TROUBLE
+      description: Possible states of the car charger
+    ChargingEvent:
+      type: string
+      enum:
+        - power_on
+        - ready_to_charge
+        - vehicle_disconnected
+        - start_charging
+        - stop_charging
+        - vehicle_connected
+        - failure
+        - power_off
+      description: Possible events that can change the charger state
