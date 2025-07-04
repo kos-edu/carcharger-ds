@@ -35,7 +35,65 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/CarChargerStatus'
-components:
+  /charger/states:
+    get:
+      summary: Get all possible charger states
+      description: Returns a list of all possible charging states
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CarChargerStatus'
+  /charger/states/detailed:
+    get:
+      summary: Get all possible charger states with detailed information
+      description: Returns a list of all possible charging states with IDs, names and descriptions
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                      example: "READY_TO_CHARGE"
+                    name:
+                      type: string
+                      example: "Ready to Charge"
+                    description:
+                      type: string
+                      example: "Charger is ready for vehicle connection"components:
+  /charger/events/detailed:
+    get:
+      summary: Get all possible charging events with detailed information
+      description: Returns a list of all possible charging events with IDs, names and descriptions
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                      example: "start_charging"
+                    name:
+                      type: string
+                      example: "Start Charging"
+                    description:
+                      type: string
+                      example: "Charging process begins"
   schemas:
     CarChargerStatus:
       type: string
