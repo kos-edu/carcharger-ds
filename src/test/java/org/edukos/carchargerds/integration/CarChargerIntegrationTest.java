@@ -1,6 +1,10 @@
 package org.edukos.carchargerds.integration;
 
+import org.junit.jupiter.api.ClassOrderer.OrderAnnotation;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.ResponseEntity;
@@ -12,12 +16,14 @@ import org.edukos.carchargerds.model.CarChargerStatus;
 import org.edukos.carchargerds.model.ChargingEvent;
 
 @SpringBootTest
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class CarChargerIntegrationTest {
 
     @Autowired
     private CarChargerController carChargerController;
 
     @Test
+    @Order(1)
     void testFullChargingCycle() {
         // Initial state
         assertEquals(CarChargerStatus.INITIAL_STATE, carChargerController.getChargingStatus());
@@ -52,6 +58,7 @@ class CarChargerIntegrationTest {
     }
 
     @Test
+    @Order(2)
     void testFailureScenario() {
         // Get to charging state
         carChargerController.processChargingEvent(ChargingEvent.POWER_ON);
